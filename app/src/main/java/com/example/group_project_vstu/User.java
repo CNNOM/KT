@@ -1,12 +1,21 @@
 package com.example.group_project_vstu;
 
-public class User {
-    private String username;
-    private String email;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-    public User(String username, String email) {
+@Entity(tableName = "users")
+public class User {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    public String username;
+    public String email;
+    public String password;
+
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
+        this.password = password;
     }
 
     public String getUsername() {
@@ -15,5 +24,9 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

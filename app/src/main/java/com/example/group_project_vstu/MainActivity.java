@@ -1,7 +1,6 @@
 package com.example.group_project_vstu;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +19,8 @@ import com.example.group_project_vstu.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,13 +79,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadUsers() {
-        // Пример загрузки данных из SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        String username = sharedPreferences.getString("username", "");
-        String email = sharedPreferences.getString("email", "");
-        if (!username.isEmpty() && !email.isEmpty()) {
-            userList.add(new User(username, email));
-            userAdapter.notifyDataSetChanged();
-        }
+        // Загрузка данных из базы данных Room
+        AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+        UserDao userDao = db.userDao();
+
+        // Используем ExecutorService для выполнения запроса в фоновом потоке
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<User> users = userDao.getAllUsers();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        userList.clear();
+                        userList.addAll(users);
+                        userAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
     }
 }
