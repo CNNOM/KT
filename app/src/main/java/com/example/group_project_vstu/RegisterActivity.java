@@ -33,22 +33,23 @@ public class RegisterActivity extends AppCompatActivity {
                 String username = editTextUsername.getText().toString();
                 String email = editTextEmail.getText().toString();
                 String password = editTextPassword.getText().toString();
+                String role = "user";
 
                 // Проверка валидности данных
                 if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(RegisterActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Пожалуйста, заполните все поля", Toast.LENGTH_SHORT).show();
                 } else {
                     // Сохранение данных пользователя
-                    saveUserData(username, email, password);
-                    Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                    saveUserData(username, email, password, role);
+                    Toast.makeText(RegisterActivity.this, "Регистрация прошла успешно", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 }
             }
         });
     }
 
-    private void saveUserData(String username, String email, String password) {
-        User user = new User(username, email, password);
+    private void saveUserData(String username, String email, String password, String role) {
+        User user = new User(username, email, password, role);
         AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
         UserDao userDao = db.userDao();
 

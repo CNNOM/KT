@@ -37,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
@@ -74,8 +73,29 @@ public class MainActivity extends AppCompatActivity {
         userAdapter = new UserAdapter(userList);
         recyclerViewUsers.setAdapter(userAdapter);
 
+        // Создание зарезервированного пользователя "admin"
+        createAdminUser();
+
         // Загрузка данных пользователей
         loadUsers();
+    }
+
+    private void createAdminUser() {
+        AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+        UserDao userDao = db.userDao();
+
+        // Используем ExecutorService для выполнения запроса в фоновом потоке
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                User adminUser = userDao.getUserByUsername("admin");
+                if (adminUser == null) {
+                    User admin = new User("admin", "admin@mail.ru", "admin123", "admin");
+                    userDao.insert(admin);
+                }
+            }
+        });
     }
 
     private void loadUsers() {

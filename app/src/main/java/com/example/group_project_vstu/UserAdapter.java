@@ -30,6 +30,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         User user = userList.get(position);
         holder.textViewUsername.setText(user.getUsername());
         holder.textViewEmail.setText(user.getEmail());
+        holder.textViewRole.setText(user.getRole()); // Отображаем роль пользователя
     }
 
     @Override
@@ -40,11 +41,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public static class UserViewHolder extends RecyclerView.ViewHolder {
         TextView textViewUsername;
         TextView textViewEmail;
+        TextView textViewRole; // Добавляем TextView для роли
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewUsername = itemView.findViewById(R.id.textViewUsername);
             textViewEmail = itemView.findViewById(R.id.textViewEmail);
+            textViewRole = itemView.findViewById(R.id.textViewRole); // Инициализируем TextView для роли
         }
     }
 }

@@ -2,6 +2,8 @@ package com.example.group_project_vstu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,12 +55,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 User user = userDao.getUser(username, password);
-                runOnUiThread(new Runnable() {
+
+                // После завершения запроса, переходим на новую активность в основном потоке
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
                         if (user != null) {
                             Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish(); // Закрываем текущую активность
                         } else {
                             Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                         }
