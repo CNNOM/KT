@@ -2,12 +2,16 @@ package com.example.group_project_vstu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -24,6 +28,7 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
     private RecyclerView recyclerViewUsers;
     private UserAdapter userAdapter;
@@ -31,10 +36,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "GOOOOOOOOOOOOOLL");
         super.onCreate(savedInstanceState);
+
+        Log.d(TAG, "onCreate method called");
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        } else {
+            Log.e(TAG, "Toolbar is null");
+        }
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -53,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Login button clicked");
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -61,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "Register button clicked");
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
@@ -78,7 +95,32 @@ public class MainActivity extends AppCompatActivity {
         loadUsers();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(TAG, "onCreateOptionsMenu method called");
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            Log.d(TAG, "Settings menu item selected");
+            // Обработка нажатия на "Settings"
+            return true;
+        } else if (id == R.id.action_about) {
+            Log.d(TAG, "About menu item selected");
+            // Обработка нажатия на "About"
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void loadUsers() {
+        Log.d(TAG, "loadUsers method called");
         // Загрузка данных из базы данных Room
         AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
         UserDao userDao = db.userDao();
@@ -92,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.d(TAG, "Users loaded: " + users.size());
                         userList.clear();
                         userList.addAll(users);
                         userAdapter.notifyDataSetChanged();
