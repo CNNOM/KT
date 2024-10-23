@@ -1,5 +1,6 @@
 package com.example.group_project_vstu;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "GOOOOOOOOOOOOOLL");
         super.onCreate(savedInstanceState);
 
         Log.d(TAG, "onCreate method called");
@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-        } else {
-            Log.e(TAG, "Toolbar is null");
-        }
+//        if (toolbar != null) {
+//            setSupportActionBar(toolbar);
+//        } else {
+//            Log.e(TAG, "Toolbar is null");
+//        }
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 List<User> users = userDao.getAllUsers();
                 runOnUiThread(new Runnable() {
+                    @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void run() {
                         Log.d(TAG, "Users loaded: " + users.size());
