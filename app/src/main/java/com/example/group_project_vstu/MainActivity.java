@@ -140,6 +140,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 List<User> users = userDao.getAllUsers();
+                Log.d(TAG, "Users loaded: " + users.size());
+                for (User user : users) {
+                    Log.d(TAG, "User: " + user.getUsername() + ", Email: " + user.getEmail() + ", Role: " + user.getRole());
+                }
                 runOnUiThread(new Runnable() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override

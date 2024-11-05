@@ -30,7 +30,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         User user = userList.get(position);
         holder.textViewUsername.setText(user.getUsername());
         holder.textViewEmail.setText(user.getEmail());
-    }
+
+        if (user.getRole() != null && !user.getRole().isEmpty()) {
+            holder.textViewRole.setText(user.getRole());
+        } else {
+            holder.textViewRole.setText("No Role");
+        }    }
 
     @Override
     public int getItemCount() {
@@ -40,11 +45,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public static class UserViewHolder extends RecyclerView.ViewHolder {
         TextView textViewUsername;
         TextView textViewEmail;
+        TextView textViewRole;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewUsername = itemView.findViewById(R.id.textViewUsername);
             textViewEmail = itemView.findViewById(R.id.textViewEmail);
+            textViewRole = itemView.findViewById(R.id.textViewRole);
         }
     }
 }
