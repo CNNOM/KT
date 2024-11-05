@@ -7,4 +7,9 @@
     <string name="username">Username</string>
     <string name="role">Role</string>
     <string name="password">Password</string>
+    <string-array name="roles_array">
+        <item>Teacher</item>
+        <item>Parent</item>
+        <item>Student</item>
+    </string-array>
 </resources>

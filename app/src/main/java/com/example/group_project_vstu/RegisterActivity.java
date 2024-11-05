@@ -3,8 +3,11 @@ package com.example.group_project_vstu;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +19,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText editTextUsername, editTextEmail, editTextPassword;
     private Button buttonRegister;
+    private Spinner spinnerRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,13 @@ public class RegisterActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonRegister = findViewById(R.id.buttonRegister);
+        spinnerRole = findViewById(R.id.spinnerRole);
+
+        // Настройка Spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.roles_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRole.setAdapter(adapter);
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,13 +44,14 @@ public class RegisterActivity extends AppCompatActivity {
                 String username = editTextUsername.getText().toString();
                 String email = editTextEmail.getText().toString();
                 String password = editTextPassword.getText().toString();
+                String role = spinnerRole.getSelectedItem().toString();
 
                 // Проверка валидности данных
-                if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                if (username.isEmpty() || email.isEmpty() || password.isEmpty() || role.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 } else {
                     // Сохранение данных пользователя
-                    saveUserData(username, email, password);
+                    saveUserData(username, email, password, role);
                     Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 }
@@ -47,8 +59,23 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void saveUserData(String username, String email, String password) {
-        User user = new User(username, email, password);
+    private void saveUserData(String username, String email, String password, String role) {
+        User user;
+        switch (role) {
+            case "Teacher":
+                user = new Teacher(username, email, password);
+                break;
+            case "Parent":
+                user = new Parent(username, email, password);
+                break;
+            case "Student":
+                user = new Student(username, email, password);
+                break;
+            default:
+                user = new User(username, email, password, "user");
+                break;
+        }
+
         AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
         UserDao userDao = db.userDao();
 
