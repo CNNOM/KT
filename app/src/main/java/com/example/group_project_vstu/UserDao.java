@@ -14,6 +14,9 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE username = :username AND password = :password")
     User getUser(String username, String password);
 
+    @Query("SELECT * FROM users WHERE role = :role LIMIT 1")
+    User getUserByRole(String role);
+
     @Query("SELECT * FROM users")
     List<User> getAllUsers();
 }
