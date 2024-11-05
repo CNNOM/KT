@@ -2,7 +2,7 @@ package com.example.group_project_vstu;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
+//когда add докер? :)
 @Entity(tableName = "users")
 public class User {
     @PrimaryKey(autoGenerate = true)
