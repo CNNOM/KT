@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
-    private RecyclerView recyclerViewUsers;
     private UserAdapter userAdapter;
     private List<User> userList;
 
@@ -41,27 +40,39 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate method called");
 
+        initializeBinding();
+//        setupToolbar();
+        setupBottomNavigation();
+        setupButtons();
+        setupRecyclerView();
+        loadUsers();
+    }
+
+    private void initializeBinding() {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+    }
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-//        if (toolbar != null) {
-//            setSupportActionBar(toolbar);
-//        } else {
-//            Log.e(TAG, "Toolbar is null");
-//        }
+//    private void setupToolbar() {
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        // if (toolbar != null) {
+//        //     setSupportActionBar(toolbar);
+//        // } else {
+//        //     Log.e(TAG, "Toolbar is null");
+//        // }
+//    }
 
+    private void setupBottomNavigation() {
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+    }
 
-        // Настройка кнопок для перехода на страницы авторизации и регистрации
+    private void setupButtons() {
         Button buttonLogin = findViewById(R.id.buttonLogin);
         Button buttonRegister = findViewById(R.id.buttonRegister);
 
@@ -82,17 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        // Настройка RecyclerView для отображения списка пользователей
-        recyclerViewUsers = findViewById(R.id.recyclerViewUsers);
-        recyclerViewUsers.setLayoutManager(new LinearLayoutManager(this));
-
-        userList = new ArrayList<>();
-        userAdapter = new UserAdapter(userList);
-        recyclerViewUsers.setAdapter(userAdapter);
-
-        // Загрузка данных пользователей
-        loadUsers();
     }
 
     @Override
@@ -119,6 +119,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupRecyclerView() {
+        RecyclerView recyclerViewUsers = findViewById(R.id.recyclerViewUsers);
+        recyclerViewUsers.setLayoutManager(new LinearLayoutManager(this));
+
+        userList = new ArrayList<>();
+        userAdapter = new UserAdapter(userList);
+        recyclerViewUsers.setAdapter(userAdapter);
+    }
+
     private void loadUsers() {
         Log.d(TAG, "loadUsers method called");
         // Загрузка данных из базы данных Room
@@ -135,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void run() {
-                        Log.d(TAG, "Users loaded: " + users.size());
                         userList.clear();
                         userList.addAll(users);
                         userAdapter.notifyDataSetChanged();

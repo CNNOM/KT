@@ -9,14 +9,18 @@
         android:id="@+id/textViewUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username"
+        android:text="@string/username"
+        android:textColor="@color/colorTextPrimary"
+
         android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textViewEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email"
+        android:textColor="@color/colorTextPrimary"
+
+        android:text="@string/email"
         android:textSize="16sp" />
 
 </LinearLayout>
