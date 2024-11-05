@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.SharedPreferences;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -53,6 +55,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 User user = userDao.getUser(username, password);
+
+                SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("role", user.getRole());
+                editor.apply();
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
