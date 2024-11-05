@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.content.SharedPreferences;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -44,13 +45,28 @@ public class MainActivity extends AppCompatActivity {
 //        setupToolbar();
         setupBottomNavigation();
         setupButtons();
-        setupRecyclerView();
-        loadUsers();
+
+        // Проверка роли пользователя
+        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String role = sharedPreferences.getString("role", "");
+
+        if ("admin".equals(role)) {
+            setupRecyclerView();
+            loadUsers();
+        } else {
+            Log.d(TAG, "User is not an admin, skipping RecyclerView setup and user loading");
+        }
     }
 
     private void initializeBinding() {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        clearUserPreferences();
     }
 
 //    private void setupToolbar() {
@@ -79,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clearUserPreferences();
                 Log.d(TAG, "Login button clicked");
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -140,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 List<User> users = userDao.getAllUsers();
+                Log.d(TAG, "Users loaded: " + users.size());
                 runOnUiThread(new Runnable() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
@@ -151,5 +169,12 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private void clearUserPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
     }
 }

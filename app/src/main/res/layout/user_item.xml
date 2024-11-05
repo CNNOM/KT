@@ -23,4 +23,23 @@
         android:text="@string/email"
         android:textSize="16sp" />
 
+    <TextView
+        android:id="@+id/textViewRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextPrimary"
+
+        android:text="@string/role"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textViewPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextPrimary"
+
+        android:text="@string/password"
+        android:textSize="16sp" />
+
+
 </LinearLayout>
