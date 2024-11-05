@@ -1,5 +1,6 @@
 package com.example.group_project_vstu;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,17 +26,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return new UserViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         User user = userList.get(position);
-        holder.textViewUsername.setText(user.getUsername());
-        holder.textViewEmail.setText(user.getEmail());
+        holder.textViewUsername.setText("Username: " + user.getUsername());
+        holder.textViewEmail.setText("Email: " +user.getEmail());
 
         if (user.getRole() != null && !user.getRole().isEmpty()) {
-            holder.textViewRole.setText(user.getRole());
+            holder.textViewRole.setText("Role: " +user.getRole());
         } else {
             holder.textViewRole.setText("No Role");
-        }    }
+        }
+        holder.textViewPassword.setText("Password: " +user.getPassword());
+
+    }
 
     @Override
     public int getItemCount() {
@@ -46,12 +51,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         TextView textViewUsername;
         TextView textViewEmail;
         TextView textViewRole;
+        TextView textViewPassword;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewUsername = itemView.findViewById(R.id.textViewUsername);
             textViewEmail = itemView.findViewById(R.id.textViewEmail);
             textViewRole = itemView.findViewById(R.id.textViewRole);
+            textViewPassword = itemView.findViewById(R.id.textViewPassword);
         }
     }
 }
