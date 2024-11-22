@@ -22,4 +22,11 @@
         android:name="com.example.group_project_vstu.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_ciberCoins"
+        android:name="com.example.group_project_vstu.ui.cyberСoins.CyberCoinsFragment"
+        android:label="@string/title_cyberСoins"
+        tools:layout="@layout/fragment_cyber_coins" />
+
 </navigation>
