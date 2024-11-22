@@ -19,4 +19,7 @@ public interface UserDao {
 
     @Query("SELECT * FROM users")
     List<User> getAllUsers();
+
+    @Query("SELECT * FROM users WHERE role = 'student'")
+    List<User> getStudents();
 }
