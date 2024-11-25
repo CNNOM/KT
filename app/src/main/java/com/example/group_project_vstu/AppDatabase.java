@@ -8,10 +8,10 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
-@Database(entities = {User.class}, version = 2)
+@Database(entities = {User.class, Attendance.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
+    public abstract AttendanceDao attendanceDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

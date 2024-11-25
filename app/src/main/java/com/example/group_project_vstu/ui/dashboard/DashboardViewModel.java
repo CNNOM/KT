@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.group_project_vstu.AppDatabase;
+import com.example.group_project_vstu.Attendance;
+import com.example.group_project_vstu.AttendanceDao;
 import com.example.group_project_vstu.User;
 import com.example.group_project_vstu.UserDao;
 
@@ -18,6 +20,7 @@ public class DashboardViewModel extends AndroidViewModel {
     private final MutableLiveData<String> mText;
     private final MutableLiveData<List<User>> mStudents;
     private final UserDao userDao;
+    private final AttendanceDao attendanceDao;
 
     public DashboardViewModel(@NonNull Application application) {
         super(application);
@@ -27,6 +30,7 @@ public class DashboardViewModel extends AndroidViewModel {
 
         AppDatabase db = AppDatabase.getDatabase(application);
         userDao = db.userDao();
+        attendanceDao = db.attendanceDao();
 
         loadStudents();
     }
@@ -37,6 +41,10 @@ public class DashboardViewModel extends AndroidViewModel {
 
     public LiveData<List<User>> getStudents() {
         return mStudents;
+    }
+
+    public LiveData<List<Attendance>> getAttendanceForUser(int userId) {
+        return attendanceDao.getAttendanceForUser(userId);
     }
 
     private void loadStudents() {
