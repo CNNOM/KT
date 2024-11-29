@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Attendance.class}, version = 3)
+@Database(entities = {User.class, Attendance.class}, version = 4)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract AttendanceDao attendanceDao();
@@ -23,7 +23,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "app_database")
-//                            .fallbackToDestructiveMigration() // Добавьте это, если хотите удалить и создать базу данных заново
+//                            .fallbackToDestructiveMigration() // Разрешаем разрушительные миграции
                             .build();
                     createAdminUser(INSTANCE);
                 }

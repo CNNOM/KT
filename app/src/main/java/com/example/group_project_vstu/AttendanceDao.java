@@ -20,4 +20,12 @@ public interface AttendanceDao {
 
     @Query("UPDATE attendance SET isPresent = :isPresent WHERE userId = :userId AND date = :date")
     void updateAttendance(int userId, String date, boolean isPresent);
+
+    // Добавляем метод для обновления баллов
+    @Query("UPDATE attendance SET points = :points WHERE userId = :userId AND date = :date")
+    void updatePoints(int userId, String date, int points);
+
+    // Добавляем метод для обновления состояния и баллов одновременно
+    @Query("UPDATE attendance SET isPresent = :isPresent, points = :points WHERE userId = :userId AND date = :date")
+    void updateAttendanceAndPoints(int userId, String date, boolean isPresent, int points);
 }

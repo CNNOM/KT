@@ -16,10 +16,21 @@ public class Attendance {
     public int userId;
     public String date; // Формат: "YYYY-MM-DD"
     public boolean isPresent;
+    public int points; // Добавляем поле для баллов
 
     public Attendance(int userId, String date, boolean isPresent) {
         this.userId = userId;
         this.date = date;
         this.isPresent = isPresent;
+        this.points = 0; // По умолчанию баллы равны 0
+    }
+
+    // Добавляем геттер и сеттер для баллов
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }
