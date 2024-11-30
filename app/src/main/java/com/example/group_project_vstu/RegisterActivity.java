@@ -58,8 +58,10 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Username must be longer than 3 characters", Toast.LENGTH_SHORT).show();
                 } else if (!isValidEmail(email)) {
                     Toast.makeText(RegisterActivity.this, "Invalid email format", Toast.LENGTH_SHORT).show();
-                } else if (password.length() <= 4) {
-                    Toast.makeText(RegisterActivity.this, "Password must be longer than 4 characters", Toast.LENGTH_SHORT).show();
+                } else if (isBannedPassword(password)) {
+                    Toast.makeText(RegisterActivity.this, "Password is too weak", Toast.LENGTH_SHORT).show();
+                } else if (!isStrongPassword(password)) {
+                    Toast.makeText(RegisterActivity.this, "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character", Toast.LENGTH_LONG).show();
                 } else {
                     // Хэширование пароля
                     String hashedPassword = hashPassword(password);
@@ -78,6 +80,18 @@ public class RegisterActivity extends AppCompatActivity {
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    private boolean isBannedPassword(String password) {
+        return BannedPasswords.contains(password);
+    }
+
+    private boolean isStrongPassword(String password) {
+        // Проверка на сложность пароля
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
 
