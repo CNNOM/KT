@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="raw_files">
+        <item>file1</item>
+        <item>file2</item>
+        <item>file3</item>
+        <item>cpp</item>
+        <!-- Добавьте сюда имена файлов, которые вы хотите загрузить -->
+    </string-array>
+</resources>

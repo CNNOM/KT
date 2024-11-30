@@ -30,8 +30,9 @@ public class NotificationsViewModel extends ViewModel {
         return mFileContent;
     }
 
-    public void loadFileContent(Context context, int resourceId) {
+    public void loadFileContent(Context context, String fileName) {
         try {
+            int resourceId = context.getResources().getIdentifier(fileName, "raw", context.getPackageName());
             InputStream inputStream = context.getResources().openRawResource(resourceId);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder stringBuilder = new StringBuilder();

@@ -23,8 +23,7 @@ public class NotificationsFragment extends Fragment implements FileAdapter.OnFil
     private FragmentNotificationsBinding binding;
     private NotificationsViewModel notificationsViewModel;
 
-    private final int[] fileResources = {R.raw.file1, R.raw.file2, R.raw.file3};
-    private final String[] fileNames = {"file1.txt", "file2.txt", "file3.txt"};
+    private List<String> fileNames;
     private List<String> fileContents;
     private List<Boolean> fileContentVisibility;
 
@@ -38,20 +37,31 @@ public class NotificationsFragment extends Fragment implements FileAdapter.OnFil
         final TextView textView = binding.textNotifications;
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
+        // Загрузка всех файлов из res/raw
+        loadFileNames();
+
         // Создание списка файлов
-        fileContents = new ArrayList<>();
-        fileContentVisibility = new ArrayList<>();
-        for (int i = 0; i < fileNames.length; i++) {
+        fileContents = new ArrayList<>(fileNames.size());
+        fileContentVisibility = new ArrayList<>(fileNames.size());
+        for (int i = 0; i < fileNames.size(); i++) {
             fileContents.add("");
             fileContentVisibility.add(false);
         }
 
         RecyclerView fileRecyclerView = binding.fileRecyclerView;
         fileRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        FileAdapter adapter = new FileAdapter(List.of(fileNames), fileContents, fileContentVisibility, this);
+        FileAdapter adapter = new FileAdapter(fileNames, fileContents, fileContentVisibility, this);
         fileRecyclerView.setAdapter(adapter);
 
         return root;
+    }
+
+    private void loadFileNames() {
+        fileNames = new ArrayList<>();
+        String[] rawResources = requireContext().getResources().getStringArray(R.array.raw_files);
+        for (String resourceName : rawResources) {
+            fileNames.add(resourceName);
+        }
     }
 
     @Override
@@ -63,7 +73,7 @@ public class NotificationsFragment extends Fragment implements FileAdapter.OnFil
     @Override
     public void onFileClick(int position) {
         if (!fileContentVisibility.get(position)) {
-            notificationsViewModel.loadFileContent(requireContext(), fileResources[position]);
+            notificationsViewModel.loadFileContent(requireContext(), fileNames.get(position));
             fileContents.set(position, notificationsViewModel.getFileContent().getValue());
         }
         ((FileAdapter) binding.fileRecyclerView.getAdapter()).toggleContentVisibility(position);
