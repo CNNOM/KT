@@ -58,6 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Username must be longer than 3 characters", Toast.LENGTH_SHORT).show();
                 } else if (!isValidEmail(email)) {
                     Toast.makeText(RegisterActivity.this, "Invalid email format", Toast.LENGTH_SHORT).show();
+                } else if (!isKnownDomain(email)) {
+                    Toast.makeText(RegisterActivity.this, "Unknown email domain", Toast.LENGTH_SHORT).show();
                 } else if (isBannedPassword(password)) {
                     Toast.makeText(RegisterActivity.this, "Password is too weak", Toast.LENGTH_SHORT).show();
                 } else if (!isStrongPassword(password)) {
@@ -81,6 +83,12 @@ public class RegisterActivity extends AppCompatActivity {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    private boolean isKnownDomain(String email) {
+        // Извлекаем домен из email
+        String domain = email.substring(email.indexOf("@") + 1);
+        return KnownDomains.contains(domain);
     }
 
     private boolean isBannedPassword(String password) {
