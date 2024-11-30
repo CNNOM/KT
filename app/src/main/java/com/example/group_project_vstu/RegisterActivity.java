@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -49,6 +51,12 @@ public class RegisterActivity extends AppCompatActivity {
                 // Проверка валидности данных
                 if (username.isEmpty() || email.isEmpty() || password.isEmpty() || role.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                } else if (username.length() <= 3) {
+                    Toast.makeText(RegisterActivity.this, "Username must be longer than 3 characters", Toast.LENGTH_SHORT).show();
+                } else if (!isValidEmail(email)) {
+                    Toast.makeText(RegisterActivity.this, "Invalid email format", Toast.LENGTH_SHORT).show();
+                } else if (password.length() <= 4) {
+                    Toast.makeText(RegisterActivity.this, "Password must be longer than 4 characters", Toast.LENGTH_SHORT).show();
                 } else {
                     // Сохранение данных пользователя
                     saveUserData(username, email, password, role);
@@ -57,6 +65,14 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean isValidEmail(String email) {
+        // Проверка на валидность email
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     private void saveUserData(String username, String email, String password, String role) {
