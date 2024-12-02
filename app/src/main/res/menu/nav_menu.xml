@@ -13,7 +13,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_account"
-        android:title="Account(develop)"
+        android:title="Account"
         android:icon="@drawable/ic_account"
         app:showAsAction="never" />
 </menu>

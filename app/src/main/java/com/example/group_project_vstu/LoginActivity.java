@@ -1,5 +1,7 @@
 package com.example.group_project_vstu;
 
+import static com.example.group_project_vstu.PasswordUtils.hashPasswordUtilit;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,9 +12,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -57,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // Хэшируем введенный пароль
-                String hashedPassword = hashPassword(password);
+                String hashedPassword = hashPasswordUtilit(password);
 
                 // Получаем пользователя по имени пользователя и хэшированному паролю
                 User user = userDao.getUser(username, hashedPassword);
@@ -65,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (user != null) {
                     SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("username", user.getUsername());
+                    editor.putString("email", user.getEmail());
                     editor.putString("role", user.getRole());
                     editor.apply();
 
@@ -72,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
                         }
                     });
                 } else {
@@ -85,25 +86,5 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private String hashPassword(String password) {
-        try {
-            // Создаем экземпляр MessageDigest для алгоритма SHA-256
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            // Хэшируем пароль
-            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-            // Преобразуем хэш в строку в шестнадцатеричном формате
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

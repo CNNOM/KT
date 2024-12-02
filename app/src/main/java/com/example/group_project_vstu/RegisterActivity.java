@@ -1,5 +1,8 @@
 package com.example.group_project_vstu;
 
+
+import static com.example.group_project_vstu.PasswordUtils.hashPasswordUtilit;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -63,10 +66,11 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (isBannedPassword(password)) {
                     Toast.makeText(RegisterActivity.this, "Password is too weak", Toast.LENGTH_SHORT).show();
                 } else if (!isStrongPassword(password)) {
-                    Toast.makeText(RegisterActivity.this, "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, "Password must be at least 4 characters", Toast.LENGTH_LONG).show();
                 } else {
                     // Хэширование пароля
-                    String hashedPassword = hashPassword(password);
+
+                    String hashedPassword = hashPasswordUtilit(password);
 
                     // Сохранение данных пользователя
                     saveUserData(username, email, hashedPassword, role);
@@ -96,31 +100,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean isStrongPassword(String password) {
-        // Проверка на сложность пароля
-        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
-    }
-
-    private String hashPassword(String password) {
-        try {
-            // Создаем экземпляр MessageDigest для алгоритма SHA-256
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            // Хэшируем пароль
-            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-            // Преобразуем хэш в строку в шестнадцатеричном формате
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
-        }
+        // Проверка на длину пароля
+        return password.length() > 4;
     }
 
     private void saveUserData(String username, String email, String hashedPassword, String role) {

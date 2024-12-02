@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.action_register) {
                     startActivity(new Intent(MainActivity.this, RegisterActivity.class));
                 } else if (id == R.id.action_account) {
-                    //@TODO Handle the account action (not implemented yet)
+                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                 }
 
                 drawerLayout.closeDrawers();
