@@ -1,5 +1,6 @@
 package com.example.group_project_vstu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -60,12 +61,12 @@ public class MainActivity extends AppCompatActivity {
                 // Handle navigation view item clicks here.
                 int id = item.getItemId();
 
-                if (id == R.id.action_register) {
-                    // Handle the settings action
-                } else if (id == R.id.action_login) {
-                    // Handle the about action
-                } else if (id == R.id.action_add) {
-                    // Handle the add action
+                if (id == R.id.action_login) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                } else if (id == R.id.action_register) {
+                    startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+                } else if (id == R.id.action_account) {
+                    //@TODO Handle the account action (not implemented yet)
                 }
 
                 drawerLayout.closeDrawers();

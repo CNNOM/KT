@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_login"
-        android:title="Логин"
-        android:icon="@drawable/ic_settings"
+        android:title="Login"
+        android:icon="@drawable/ic_login"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_register"
-        android:title="Регистрация"
-        android:icon="@drawable/ic_info"
+        android:title="Register"
+        android:icon="@drawable/ic_register"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_add"
-        android:title="add"
+        android:id="@+id/action_account"
+        android:title="Account(develop)"
+        android:icon="@drawable/ic_account"
         app:showAsAction="never" />
 </menu>
