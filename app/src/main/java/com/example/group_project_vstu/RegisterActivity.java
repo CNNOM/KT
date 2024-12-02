@@ -12,8 +12,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -49,9 +54,22 @@ public class RegisterActivity extends AppCompatActivity {
                 // Проверка валидности данных
                 if (username.isEmpty() || email.isEmpty() || password.isEmpty() || role.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                } else if (username.length() <= 3) {
+                    Toast.makeText(RegisterActivity.this, "Username must be longer than 3 characters", Toast.LENGTH_SHORT).show();
+                } else if (!isValidEmail(email)) {
+                    Toast.makeText(RegisterActivity.this, "Invalid email format", Toast.LENGTH_SHORT).show();
+                } else if (!isKnownDomain(email)) {
+                    Toast.makeText(RegisterActivity.this, "Unknown email domain", Toast.LENGTH_SHORT).show();
+                } else if (isBannedPassword(password)) {
+                    Toast.makeText(RegisterActivity.this, "Password is too weak", Toast.LENGTH_SHORT).show();
+                } else if (!isStrongPassword(password)) {
+                    Toast.makeText(RegisterActivity.this, "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character", Toast.LENGTH_LONG).show();
                 } else {
+                    // Хэширование пароля
+                    String hashedPassword = hashPassword(password);
+
                     // Сохранение данных пользователя
-                    saveUserData(username, email, password, role);
+                    saveUserData(username, email, hashedPassword, role);
                     Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 }
@@ -59,20 +77,66 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void saveUserData(String username, String email, String password, String role) {
+    private boolean isValidEmail(String email) {
+        // Проверка на валидность email
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    private boolean isKnownDomain(String email) {
+        // Извлекаем домен из email
+        String domain = email.substring(email.indexOf("@") + 1);
+        return KnownDomains.contains(domain);
+    }
+
+    private boolean isBannedPassword(String password) {
+        return BannedPasswords.contains(password);
+    }
+
+    private boolean isStrongPassword(String password) {
+        // Проверка на сложность пароля
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+
+    private String hashPassword(String password) {
+        try {
+            // Создаем экземпляр MessageDigest для алгоритма SHA-256
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            // Хэшируем пароль
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            // Преобразуем хэш в строку в шестнадцатеричном формате
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void saveUserData(String username, String email, String hashedPassword, String role) {
         User user;
         switch (role) {
             case "Teacher":
-                user = new Teacher(username, email, password);
+                user = new Teacher(username, email, hashedPassword);
                 break;
             case "Parent":
-                user = new Parent(username, email, password);
+                user = new Parent(username, email, hashedPassword);
                 break;
             case "Student":
-                user = new Student(username, email, password);
+                user = new Student(username, email, hashedPassword);
                 break;
             default:
-                user = new User(username, email, password, "user");
+                user = new User(username, email, hashedPassword, "user");
                 break;
         }
 
