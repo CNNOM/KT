@@ -30,9 +30,32 @@ public class ProfileActivity extends AppCompatActivity {
         String username = sharedPreferences.getString("username", "");
         String email = sharedPreferences.getString("email", "");
 
-        // Устанавливаем данные в TextView
-        textViewUsername.setText("Username: " + username);
-        textViewEmail.setText("Email: " + email);
+        // Проверяем, залогинен ли пользователь
+        if (username.isEmpty() || email.isEmpty()) {
+            // Устанавливаем дефолтное оповещение
+            textViewUsername.setText("Username: Not logged in");
+            textViewEmail.setText("Email: Not logged in");
+
+            // Блокируем кнопки "Change Password" и "Logout"
+            buttonChangePassword.setEnabled(false);
+            buttonLogout.setEnabled(false);
+
+            // Устанавливаем прозрачность для неактивных кнопок
+            buttonChangePassword.setAlpha(0.5f);
+            buttonLogout.setAlpha(0.5f);
+        } else {
+            // Устанавливаем данные в TextView
+            textViewUsername.setText("Username: " + username);
+            textViewEmail.setText("Email: " + email);
+
+            // Разблокируем кнопки "Change Password" и "Logout"
+            buttonChangePassword.setEnabled(true);
+            buttonLogout.setEnabled(true);
+
+            // Устанавливаем полную прозрачность для активных кнопок
+            buttonChangePassword.setAlpha(1.0f);
+            buttonLogout.setAlpha(1.0f);
+        }
 
         // Обработка нажатия на кнопку "Change Password"
         buttonChangePassword.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +85,7 @@ public class ProfileActivity extends AppCompatActivity {
                 editor.apply();
 
                 // Переходим на активность входа
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
                 finish(); // Закрываем текущую активность
             }
         });
