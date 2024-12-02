@@ -11,42 +11,43 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Group_projectvstu"
+        android:theme="@style/AppTheme"
         tools:targetApi="31">
 
         <!-- MainActivity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name">
-<!--                        <intent-filter>-->
-<!--                            <action android:name="android.intent.action.MAIN" />-->
-<!--                            <category android:name="android.intent.category.LAUNCHER" />-->
-<!--                        </intent-filter>-->
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
-        <!-- RegisterActivity -->
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="true"
-            android:label="@string/app_name">
-                        <intent-filter>
-                            <action android:name="android.intent.action.MAIN" />
-                            <category android:name="android.intent.category.LAUNCHER" />
-                        </intent-filter>
-        </activity>
-
-        <!-- LoginActivity -->
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true"
-            android:label="@string/app_name">
-<!--                        <intent-filter>-->
-<!--                            <action android:name="android.intent.action.MAIN" />-->
-<!--                            <category android:name="android.intent.category.LAUNCHER" />-->
-<!--                        </intent-filter>-->
-        </activity>
-
     </application>
 
 </manifest>
+
+
+<!--    &lt;!&ndash; RegisterActivity &ndash;&gt;-->
+<!--<activity-->
+<!--android:name=".RegisterActivity"-->
+<!--android:exported="true"-->
+<!--android:label="@string/app_name">-->
+<!--&lt;!&ndash;                        <intent-filter>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <action android:name="android.intent.action.MAIN" />&ndash;&gt;-->
+<!--&lt;!&ndash;                            <category android:name="android.intent.category.LAUNCHER" />&ndash;&gt;-->
+<!--&lt;!&ndash;                        </intent-filter>&ndash;&gt;-->
+<!--</activity>-->
+
+<!--    &lt;!&ndash; LoginActivity &ndash;&gt;-->
+<!--<activity-->
+<!--android:name=".LoginActivity"-->
+<!--android:exported="true"-->
+<!--android:label="@string/app_name">-->
+<!--&lt;!&ndash;                        <intent-filter>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <action android:name="android.intent.action.MAIN" />&ndash;&gt;-->
+<!--&lt;!&ndash;                            <category android:name="android.intent.category.LAUNCHER" />&ndash;&gt;-->
+<!--&lt;!&ndash;                        </intent-filter>&ndash;&gt;-->
+<!--</activity>-->
