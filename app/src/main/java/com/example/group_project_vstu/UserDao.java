@@ -22,4 +22,7 @@ public interface UserDao {
 
     @Query("SELECT * FROM users WHERE role = 'student'")
     List<User> getStudents();
+
+    @Query("UPDATE users SET password = :newPassword WHERE username = :username")
+    void updatePassword(String username, String newPassword);
 }
