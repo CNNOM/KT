@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.TextView;
+import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -17,14 +17,14 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Найдите TextView
-        TextView welcomeText = findViewById(R.id.welcomeText);
+        // Найдите ImageView
+        ImageView logoImageView = findViewById(R.id.logoImageView);
 
         // Загрузите анимацию
-        Animation complexAnimation = AnimationUtils.loadAnimation(this, R.anim.complex_animation);
+        Animation logoAnimation = AnimationUtils.loadAnimation(this, R.anim.logo_animation_detailed);
 
-        // Примените анимацию к TextView
-        welcomeText.startAnimation(complexAnimation);
+        // Примените анимацию к ImageView
+        logoImageView.startAnimation(logoAnimation);
 
         // Задержка перед переходом в MainActivity
         new Handler().postDelayed(new Runnable() {
