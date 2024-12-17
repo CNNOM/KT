@@ -1,5 +1,5 @@
 <resources>
-    <!-- Base application theme. -->
+    <!-- Уже существующие стили -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -8,6 +8,12 @@
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:textColorPrimary">@color/colorTextPrimary</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+    </style>
+
+    <!-- Новая тема для SplashActivity -->
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/purple_500</item> <!-- Фиолетовый фон -->
+        <item name="android:textColorPrimary">@color/white</item> <!-- Белый текст -->
     </style>
 
     <style name="Theme.Group_projectvstu.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

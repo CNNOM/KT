@@ -51,10 +51,10 @@ dependencies {
 
     // Room
     implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler) // Добавьте эту строку для компилятора Room
 
     // Другие зависимости
     implementation(libs.gson)
     implementation(libs.threetenabp)
     implementation("androidx.core:core-ktx:1.12.0")
-
 }
