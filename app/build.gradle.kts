@@ -29,13 +29,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     buildFeatures {
         viewBinding = true
     }
 }
 
 dependencies {
-
+    // Основные зависимости
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
@@ -48,8 +49,12 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
+    // Room
     implementation(libs.room.runtime)
-    annotationProcessor(libs.room.compiler)
+
+    // Другие зависимости
     implementation(libs.gson)
     implementation(libs.threetenabp)
+    implementation("androidx.core:core-ktx:1.12.0")
+
 }
