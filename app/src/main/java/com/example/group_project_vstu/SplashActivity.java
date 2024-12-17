@@ -8,9 +8,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.group_project_vstu.MainActivity;
-import com.example.group_project_vstu.R;
-
 public class SplashActivity extends AppCompatActivity {
 
     private static final int SPLASH_DELAY = 3000; // 3 секунды
@@ -24,10 +21,10 @@ public class SplashActivity extends AppCompatActivity {
         TextView welcomeText = findViewById(R.id.welcomeText);
 
         // Загрузите анимацию
-        Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        Animation complexAnimation = AnimationUtils.loadAnimation(this, R.anim.complex_animation);
 
         // Примените анимацию к TextView
-        welcomeText.startAnimation(fadeInAnimation);
+        welcomeText.startAnimation(complexAnimation);
 
         // Задержка перед переходом в MainActivity
         new Handler().postDelayed(new Runnable() {
